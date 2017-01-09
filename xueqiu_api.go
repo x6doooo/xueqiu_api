@@ -124,12 +124,12 @@ func (me *Controller) GetCodeList() (list []string) {
     return
 }
 
-func (me *Controller) GetDetail(codes string) (list []model.StockInfo) {
+func (me *Controller) GetDetail(codes string) (list []interface{}) {
     req, _ := http.NewRequest("GET", url_stockDetail + "?code=" + codes, nil)
     resp, _ := me.client.Do(req)
     defer resp.Body.Close()
     body, _ := ioutil.ReadAll(resp.Body)
-    stocks := map[string]model.StockInfo{}
+    stocks := map[string]interface{}{}
     json.Unmarshal(body, &stocks)
     for _, item := range stocks {
         list = append(list, item)
