@@ -1,0 +1,6 @@
+conf/conf.dev.toml
+conf/conf.prod.toml
+deploy.sh
+vendor/*/**
+bin/*
+ana_prod.tar.gz
