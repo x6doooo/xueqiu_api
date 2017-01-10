@@ -149,7 +149,7 @@ func (me *Controller) GetDetail(codes string) (list []interface{}) {
                     itemCast[k] = v
             }
         }
-        list = append(list, item)
+        list = append(list, itemCast)
     }
     return list
 }
