@@ -129,9 +129,26 @@ func (me *Controller) GetDetail(codes string) (list []interface{}) {
     resp, _ := me.client.Do(req)
     defer resp.Body.Close()
     body, _ := ioutil.ReadAll(resp.Body)
-    stocks := map[string]interface{}{}
+    stocks := map[string](map[string]string){}
     json.Unmarshal(body, &stocks)
     for _, item := range stocks {
+        itemCast := map[string]interface{}{}
+        for k, v := range item {
+            switch k {
+            case "volume", "current", "instOwn", "low52week", "high52week",
+                "marketCapital", "pe_ttm", "pe_lyr", "net_assets",
+                "moving_avg_200_day", "chg_from_200_day_moving_avg", "pct_chg_from_200_day_moving_avg",
+                "moving_avg_50_day", "chg_from_50_day_moving_avg", "pct_chg_from_50_day_moving_avg":
+                    val, err := strconv.ParseFloat(v, 64)
+                    if err != nil {
+                        itemCast[k] = 0
+                    } else {
+                        itemCast[k] = val
+                    }
+            default:
+                    itemCast[k] = v
+            }
+        }
         list = append(list, item)
     }
     return list
