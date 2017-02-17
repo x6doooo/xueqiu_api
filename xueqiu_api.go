@@ -10,7 +10,7 @@ import (
     "time"
     "io/ioutil"
     "net/url"
-    "./model"
+    "xueqiu_api/models"
     "encoding/json"
     "strconv"
 )
