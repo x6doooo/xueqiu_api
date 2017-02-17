@@ -18,4 +18,6 @@ func TestNew(t *testing.T) {
     detailList := ctrl.GetDetail(list[0]);
     fmt.Println(detailList)
 
+    events := ctrl.GetEvents("GRPN")
+    fmt.Println(events)
 }

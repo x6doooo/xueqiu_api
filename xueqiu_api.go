@@ -20,6 +20,8 @@ const (
     url_stockList = "https://xueqiu.com/stock/cata/stocklist.json"
     url_stockDetail = "https://xueqiu.com/v4/stock/quote.json"
     url_stockDataForChart = "https://xueqiu.com/stock/forchart/stocklist.json"
+
+    url_events = "https://xueqiu.com/calendar/cal/events.json"
 )
 
 type CodeList struct {
@@ -29,6 +31,34 @@ type CodeList struct {
 }
 
 type StockInfo map[string]string
+
+type EventItem map[string]interface{}
+type EventSet map[string][]EventItem
+
+//"id": 20974531,
+//"author_id": -1,
+//"calendar_id": 20194324,
+//"title": "盘前 披露财报，预期EPS -0.02",
+//"timezone": "US/Eastern",
+//"color": "blue",
+//"start_date": 1487088000000,
+//"end_date": null,
+//"location": "",
+//"description": "盘前 披露财报，预期EPS -0.02 http://www.nasdaq.com/earnings/report/grpn",
+//"url": null,
+//"stock": "GRPN",
+//"stock_event_type": 1,
+//"best_editor_id": -1,
+//"last_modified": 1486339203000,
+//"created_at": 1486339203000,
+//"all_day": false,
+//"share_id": 0,
+//"sequence": 0,
+//"privacy_read": "0",
+//"privacy_write": "1",
+//"is_stock_event": true,
+//"stat": null,
+//"stock_name": "Groupon"
 
 
 func md5hex(str string) string {
@@ -129,6 +159,20 @@ func (me *Controller) GetCodeList() (list []string) {
             break
         }
     }
+    return
+}
+
+func (me *Controller) GetEvents(code string) (eventSet EventSet) {
+    params := url.Values{}
+    params.Set("symbol", code)
+    params.Set("end_date", "INF")
+    params.Set("page", "1")
+    params.Set("count", "3")
+    req, _ := http.NewRequest("GET", url_events + "?" + params.Encode(), nil)
+    resp, _ := me.client.Do(req)
+    body, _ := ioutil.ReadAll(resp.Body)
+    resp.Body.Close()
+    json.Unmarshal(body, & eventSet)
     return
 }
 
