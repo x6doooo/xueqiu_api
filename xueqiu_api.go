@@ -12,7 +12,6 @@ import (
     "net/url"
     "encoding/json"
     "strconv"
-    "xueqiu_api/model"
 )
 
 const (
@@ -22,6 +21,15 @@ const (
     url_stockDetail = "https://xueqiu.com/v4/stock/quote.json"
     url_stockDataForChart = "https://xueqiu.com/stock/forchart/stocklist.json"
 )
+
+type CodeList struct {
+    Count map[string]int
+    Success bool
+    Stocks [](map[string]string)
+}
+
+type StockInfo map[string]string
+
 
 func md5hex(str string) string {
     h := md5.New()
@@ -95,7 +103,7 @@ func (me *Controller) GetCodeList() (list []string) {
     params.Set("orderby", "code")
     params.Set("type", "0,1,2")
     for {
-        codeList := model.CodeList{}
+        codeList := CodeList{}
         pageNum += 1
         params.Set("page", strconv.Itoa(pageNum))
         req, _ := http.NewRequest("GET", url_stockList + "?" + params.Encode(), nil)
