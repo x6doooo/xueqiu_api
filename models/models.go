@@ -1,4 +1,4 @@
-package model
+package models
 
 type CodeList struct {
     Count map[string]int
