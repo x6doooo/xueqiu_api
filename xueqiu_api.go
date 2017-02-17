@@ -10,9 +10,9 @@ import (
     "time"
     "io/ioutil"
     "net/url"
-    "xueqiu_api/models"
     "encoding/json"
     "strconv"
+    "xueqiu_api/model"
 )
 
 const (
